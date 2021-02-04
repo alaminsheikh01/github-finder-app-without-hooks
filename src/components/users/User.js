@@ -94,7 +94,20 @@ export class User extends Component {
           <div className="badge badge-danger">Public Repos: {public_repos}</div>
           <div className="badge badge-dark">Public Gists: {public_gists}</div>
         </div>
+        <div
+          style={{ textAlign: "center", fontSize: "22px", fontWeight: "bold" }}
+          className=""
+        >
+          RECENT REPOS
+        </div>
         <Repos repos={repos} />
+        <a
+          href={html_url}
+          className="btn btn-dark"
+          style={{ marginBottom: "10%", marginTop: "30px" }}
+        >
+          READ MORE..
+        </a>
       </Fragment>
     );
   }

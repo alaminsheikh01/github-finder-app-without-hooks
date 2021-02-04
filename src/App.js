@@ -9,6 +9,17 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import About from "./components/pages/About";
 import User from "./components/users/User";
 
+let githubClietId;
+let githubClientSecret;
+
+if (process.env.NODE_ENV !== "production") {
+  githubClietId = process.env.REACT_APP_GITHUB_ID;
+  githubClientSecret = process.env.REACT_APP_GITHUB_SECRET;
+} else {
+  githubClietId = process.env.GITHUB_ID;
+  githubClientSecret = process.env.GITHUB_SECRET;
+}
+
 class App extends React.Component {
   state = {
     users: [],
@@ -21,7 +32,7 @@ class App extends React.Component {
     this.setState({ loading: true }); // loading before fach data
 
     const res = await axios.get(
-      `https://api.github.com/users?client_id=${process.env.REACT_APP_GITHUB_ID}&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`
+      `https://api.github.com/users?client_id=${githubClietId}&client_secret=${githubClientSecret}`
     );
 
     this.setState({ users: res.data, loading: false }); //after fach data loading false
@@ -31,7 +42,7 @@ class App extends React.Component {
   searchUsers = async (text) => {
     this.setState({ loading: true });
     const res = await axios.get(
-      `https://api.github.com/search/users?q=${text}&client_id=${process.env.REACT_APP_GITHUB_ID}&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`
+      `https://api.github.com/search/users?q=${text}&client_id=${githubClietId}&client_secret=${githubClientSecret}`
     );
 
     this.setState({ users: res.data.items, loading: false }); //after fach data loading false
@@ -40,7 +51,7 @@ class App extends React.Component {
   getUser = async (username) => {
     this.setState({ loading: true });
     const res = await axios.get(
-      `https://api.github.com/users/${username}?client_id=${process.env.REACT_APP_GITHUB_ID}&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`
+      `https://api.github.com/users/${username}?client_id=${githubClietId}&client_secret=${githubClientSecret}`
     );
 
     this.setState({ user: res.data, loading: false }); //after fach data loading false
@@ -50,7 +61,7 @@ class App extends React.Component {
   getUserRepos = async (userrepos) => {
     this.setState({ loading: true });
     const res = await axios.get(
-      `https://api.github.com/users/${userrepos}/repos?per_page=5&sort=created:asc&client_id=${process.env.REACT_APP_GITHUB_ID}&client_secret=${process.env.REACT_APP_GITHUB_SECRET}`
+      `https://api.github.com/users/${userrepos}/repos?per_page=5&sort=created:asc&client_id=${githubClietId}&client_secret=${githubClientSecret}`
     );
 
     this.setState({ repos: res.data, loading: false }); //after fach data loading false
@@ -107,6 +118,20 @@ class App extends React.Component {
               />
             </Switch>
           </div>
+        </div>
+        <div
+          style={{
+            textAlign: "center",
+            marginTop: "10px",
+            marginBottom: "10px",
+          }}
+        >
+          <p>
+            Made by{" "}
+            <a href="https://web.facebook.com/muhammadalamin01/">
+              Alamin Sheikh
+            </a>
+          </p>
         </div>
       </Router>
     );
